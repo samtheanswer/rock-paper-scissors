@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock-Paper-Scissors!</title>
+    <style>
+        body {
+            background-color: #333;
+        }
+    </style>
+    <script defer>
+        const rps = ['rock', 'paper', 'scissors']
+
+        function getComputerChoice() {
+            return rps[Math.floor(Math.random() * rps.length)]
+        }
+
+        function sort(value) {
+            let middle = Math.floor(rps.length / 2)
+            while (rps.indexOf(value) !== middle) {
+                computerIndex = rps.indexOf(value)
+                
+                if (computerIndex < middle) {
+                    rps.unshift(rps.pop())
+                } else {
+                    rps.push(rps.shift())
+                }
+            }            
+        }
+
+        function capitalize(str) {
+            return str[0].toUpperCase() + str.slice(1)
+        }
+
+        function playRound(playerSelection, computerSelection) {
+            playerSelection = playerSelection.toLowerCase();
+            if (!rps.includes(playerSelection)) {
+                console.log('Invalid entry.')
+                return
+            }            
+            sort(computerSelection)
+
+            if (playerSelection === computerSelection) {
+                console.log(`It's a draw. You both selected ${capitalize(playerSelection)}.`)
+                return 0
+            } else if (rps.indexOf(playerSelection) < Math.floor(rps.length / 2)) {
+                console.log(`Computer wins! ${capitalize(computerSelection)} beats ${capitalize(playerSelection)}.`)
+                return -1
+            } else {
+                console.log(`You win! ${capitalize(playerSelection)} beats ${capitalize(computerSelection)}.`)
+                return 1
+            }
+        }
+
+        function game(n) {
+            let scores = {
+                player: 0,
+                computer: 0
+            }
+
+            for (let _ = 0; _ < n; _++) {
+                returnValue = playRound(prompt('Rock, paper, scissors?'), getComputerChoice())
+
+                if(returnValue) {
+                    if (returnValue > 0) {
+                        scores.player++
+                    } else {
+                        scores.computer++
+                    }
+                }
+            }
+
+            console.log(`Game over!\nPlayer: ${scores.player} | Computer: ${scores.computer}`)
+        }
+
+        game(5)
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
